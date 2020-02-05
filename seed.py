@@ -2,8 +2,8 @@
 
 from sqlalchemy import func
 from model import User
-# from model import Rating
-# from model import Movie
+from model import Rating
+from model import Movie
 
 from model import connect_to_db, db
 from server import app
@@ -23,7 +23,7 @@ def load_users():
     for row in open("seed_data/u.user"):
         row = row.rstrip()
         user_id, age, gender, occupation, zipcode = row.split("|")
-        
+
         user = User(user_id=user_id,
                     age=age,
                     zipcode=zipcode)
@@ -45,6 +45,9 @@ def load_movies():
         row = row.rstrip()
         movie_id, title, released_at, imdb_url = row.split("|")
         title = title[:-7]
+        
+        # slice off last indexes after imdb?
+
         # if year_title = re.search(/\(\d{4}\)/) tried RegEx
 
         date_format = "%d-%b-%Y"
