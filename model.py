@@ -30,7 +30,7 @@ class User(db.Model):
         """Provide helpful representation when printed"""
 
         return f"<User user_id={self.user_id} email={self.email}>"
-        
+
 
 # Put your Movie and Rating model classes here.
 class Movie(db.Model):
@@ -39,9 +39,9 @@ class Movie(db.Model):
     __tablename__ = "movies"
 
     movie_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    title = db.Column(db.String(64), nullable=False)
+    title = db.Column(db.String(100), nullable=False)
     released_at = db.Column((db.DateTime), nullable=True)
-    imdb_url = db.Column(db.String(64), nullable=True)
+    imdb_url = db.Column(db.String(200), nullable=True)
 
 
 class Rating(db.Model):

@@ -43,9 +43,10 @@ def load_movies():
 
     for row in open("seed_data/u.item"):
         row = row.rstrip()
-        movie_id, title, released_at, imdb_url = row.split("|")
+        movie_id, title, released_at, junk, imdb_url = row.split("|")[:5]
+   
         title = title[:-7]
-        
+
         # slice off last indexes after imdb?
 
         # if year_title = re.search(/\(\d{4}\)/) tried RegEx
@@ -53,8 +54,7 @@ def load_movies():
         date_format = "%d-%b-%Y"
         released_at = datetime.strptime(released_at, date_format)
 
-        movie = Movie(movie_id=movie_id,
-                      title=title,
+        movie = Movie(title=title,
                       released_at=released_at,
                       imdb_url=imdb_url)
 
@@ -72,7 +72,7 @@ def load_ratings():
 
     for row in open("seed_data/u.data"):
         row = row.rstrip()
-        rating_id, movie_id, user_id, score = row.split("|")
+        rating_id, movie_id, user_id, score = row.split()
 
         rating = Rating(rating_id=rating_id,
                         movie_id=movie_id,
