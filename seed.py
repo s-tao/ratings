@@ -24,8 +24,7 @@ def load_users():
         row = row.rstrip()
         user_id, age, gender, occupation, zipcode = row.split("|")
 
-        user = User(user_id=user_id,
-                    age=age,
+        user = User(age=age,
                     zipcode=zipcode)
 
         # We need to add to the session or it won't ever be stored
@@ -43,7 +42,7 @@ def load_movies():
 
     for row in open("seed_data/u.item"):
         row = row.rstrip()
-        movie_id, title, released_at, junk, imdb_url = row.split("|")[:5]
+        movie_id, title, released_str, junk, imdb_url = row.split("|")[:5]
    
         title = title[:-7]
 
@@ -51,8 +50,10 @@ def load_movies():
 
         # if year_title = re.search(/\(\d{4}\)/) tried RegEx
 
-        date_format = "%d-%b-%Y"
-        released_at = datetime.strptime(released_at, date_format)
+        if released_str:
+            released_at = datetime.strptime(released_str, "%d-%b-%Y")
+        else:
+            released_at = None
 
         movie = Movie(title=title,
                       released_at=released_at,
@@ -72,10 +73,9 @@ def load_ratings():
 
     for row in open("seed_data/u.data"):
         row = row.rstrip()
-        rating_id, movie_id, user_id, score = row.split()
+        user_id, movie_id, score, timestamp = row.split()
 
-        rating = Rating(rating_id=rating_id,
-                        movie_id=movie_id,
+        rating = Rating(movie_id=movie_id,
                         user_id=user_id,
                         score=score)
 

@@ -43,15 +43,33 @@ class Movie(db.Model):
     released_at = db.Column((db.DateTime), nullable=True)
     imdb_url = db.Column(db.String(200), nullable=True)
 
+    def __repr__(self):
+
+        return f"<Movie title={self.title} released_at={self.released_at}>"
+
 
 class Rating(db.Model):
 
     __tablename__ = "ratings"
 
-    rating_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    movie_id = db.Column(db.Integer, nullable=False)
-    user_id =  db.Column(db.Integer, nullable=False)
-    score = db.Column(db.Integer, nullable=False)
+    rating_id = db.Column(db.Integer,
+                          autoincrement=True,
+                          primary_key=True)
+    movie_id = db.Column(db.Integer,
+                         db.ForeignKey('movies.movie_id'))
+    user_id =  db.Column(db.Integer,
+                         db.ForeignKey('users.user_id'))
+    score = db.Column(db.Integer)
+
+    user = db.relationship("User", backref=db.backref('ratings',
+                                                       order_by=rating_id))
+
+    def __repr__(self):
+        
+        return f"""<Rating rating_id={self.rating_id} 
+                    movie_id = {self.movie_id}
+                    user_id = {self.user_id}
+                    score={self.score}>"""
 
 ##############################################################################
 # Helper functions
